@@ -1,15 +1,18 @@
 package com.company.ems_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
-@Data
+//@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +29,35 @@ public class Manager
     @NotBlank(message = "Email is mandatory")
     private String mgr_Email;
 
-    @OneToMany(mappedBy = "manager" ,cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Employee> team;
+    @OneToMany(mappedBy = "manager" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Employee> team = new HashSet<>(); // we will get the unique employees
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Manager that))
+        {
+            return false;
+        }
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id);
+    }
+
+
+    public void addEmployee(Employee employee)
+    {
+        team.add(employee);
+        employee.setManager(this);
+    }
+
+    public void removeEmployee(Employee employee) {
+        team.remove(employee);
+        employee.setManager(null);
+    }
 }

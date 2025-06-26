@@ -1,14 +1,16 @@
 package com.company.ems_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Data
+//@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +39,27 @@ public class Employee
 
     //******************** Mapping ************
     //  Many Employees -> One Manager
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
+    @JsonBackReference
     private Manager manager;
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) return true;
+        if (!(obj instanceof Manager))
+        {
+            return false;
+        }
+        Manager that = (Manager) obj;
+        return Objects.equals(id, that.getId());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id);
+    }
+
 }
