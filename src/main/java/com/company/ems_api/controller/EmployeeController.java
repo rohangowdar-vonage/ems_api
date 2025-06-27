@@ -18,7 +18,7 @@ public class EmployeeController
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/emp")
+    @PostMapping("/save_emp")
     public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee)
     {
         return ResponseEntity.ok(employeeService.addEmployee(employee));

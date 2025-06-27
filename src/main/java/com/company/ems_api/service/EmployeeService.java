@@ -16,6 +16,9 @@ public class EmployeeService
 
     public Employee addEmployee(@Valid Employee employee)
     {
+        if (employeeRepo.existsByEmail(employee.getEmp_Email())) {
+            throw new RuntimeException("Employee with email already exists");
+        }
         return employeeRepo.save(employee);
     }
 

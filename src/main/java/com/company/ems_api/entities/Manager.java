@@ -27,6 +27,7 @@ public class Manager
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is mandatory")
+    @Column(unique = true)
     private String mgr_Email;
 
     @OneToMany(mappedBy = "manager" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -35,7 +36,9 @@ public class Manager
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Manager that))
         {
             return false;
