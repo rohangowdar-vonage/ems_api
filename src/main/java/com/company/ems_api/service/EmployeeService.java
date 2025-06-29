@@ -16,8 +16,8 @@ public class EmployeeService
 
     public Employee addEmployee(@Valid Employee employee)
     {
-        if (employeeRepo.existsByEmail(employee.getEmp_Email())) {
-            throw new RuntimeException("Employee with email already exists");
+        if (employeeRepo.existsByEmpEmail(employee.getEmpEmail())) {
+            throw new IllegalArgumentException("Employee with email " + employee.getEmpEmail() + " already exists.");
         }
         return employeeRepo.save(employee);
     }
@@ -38,7 +38,7 @@ public class EmployeeService
         employee.setEmp_Name(eDetails.getEmp_Name());
         employee.setEmp_Age(eDetails.getEmp_Age());
         employee.setEmp_Sal(eDetails.getEmp_Sal());
-        employee.setEmp_Email(eDetails.getEmp_Email());
+        employee.setEmpEmail(eDetails.getEmpEmail());
         employee.setEmp_Role(eDetails.getEmp_Role());
         employee.setManager(eDetails.getManager());
         return employeeRepo.save(employee);
@@ -59,9 +59,9 @@ public class EmployeeService
         {
             emp.setEmp_Sal(partial.getEmp_Sal());
         }
-        if (partial.getEmp_Email() != null)
+        if (partial.getEmpEmail() != null)
         {
-            emp.setEmp_Email(partial.getEmp_Email());
+            emp.setEmpEmail(partial.getEmpEmail());
         }
         if (partial.getEmp_Role() != null)
         {

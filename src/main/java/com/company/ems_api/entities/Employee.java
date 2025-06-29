@@ -32,8 +32,8 @@ public class Employee
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is mandatory")
-    @Column(unique = true)
-    private String emp_Email;
+    @Column (name= "emp_Email",unique = true)
+    private String empEmail;
 
     @NotBlank(message = "Role is mandatory")
     private String emp_Role;

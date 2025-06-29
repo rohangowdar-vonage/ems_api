@@ -28,7 +28,7 @@ public class Manager
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is mandatory")
     @Column(unique = true)
-    private String mgr_Email;
+    private String mgrEmail;
 
     @OneToMany(mappedBy = "manager" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonManagedReference
