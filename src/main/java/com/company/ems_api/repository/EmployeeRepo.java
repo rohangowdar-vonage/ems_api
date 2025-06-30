@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee,Long>
 {
-    boolean existsByEmpEmail(String empEmail);
+    boolean existsByEmpEmailIgnoreCase(String empEmail);
 }

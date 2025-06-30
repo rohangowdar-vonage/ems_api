@@ -17,22 +17,22 @@ import java.util.Objects;
 public class Employee
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
     private String emp_Name;
 
-    @Min(value = 18,message = "Minimum age is 18 years")
+    @Min(value = 18,message = "Employee Minimum age should be 18 years")
     private int emp_Age;
 
     @DecimalMin(value = "0.0", message = "Salary must be a positive number")
     @NotNull(message = "Salary is mandatory")
     private BigDecimal emp_Sal;
 
-    @Email(message = "Email should be valid")
+    @Email(message = "Invalid Email ID")
     @NotBlank(message = "Email is mandatory")
-    @Column (name= "emp_Email",unique = true)
+    @Column (name= "emp_Email",unique = true,nullable = false)
     private String empEmail;
 
     @NotBlank(message = "Role is mandatory")
@@ -44,23 +44,5 @@ public class Employee
     @JoinColumn(name = "manager_id")
     @JsonBackReference
     private Manager manager;
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (!(obj instanceof Manager))
-        {
-            return false;
-        }
-        Manager that = (Manager) obj;
-        return Objects.equals(id, that.getId());
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(id);
-    }
 
 }

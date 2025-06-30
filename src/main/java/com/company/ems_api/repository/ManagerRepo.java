@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ManagerRepo extends JpaRepository<Manager,Long>
 {
     boolean existsByMgrEmail(String mgrEmail);
+    void deleteManagerById(Long id);
 }

@@ -10,5 +10,4 @@ public class EmsApiApplication {
 	{
 		SpringApplication.run(EmsApiApplication.class, args);
 	}
-
 }

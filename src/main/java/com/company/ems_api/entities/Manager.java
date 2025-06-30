@@ -19,7 +19,7 @@ import java.util.Set;
 public class Manager
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Manager name is mandatory")
@@ -34,33 +34,4 @@ public class Manager
     @JsonManagedReference
     private Set<Employee> team = new HashSet<>(); // we will get the unique employees
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Manager that))
-        {
-            return false;
-        }
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(id);
-    }
-
-
-    public void addEmployee(Employee employee)
-    {
-        team.add(employee);
-        employee.setManager(this);
-    }
-
-    public void removeEmployee(Employee employee) {
-        team.remove(employee);
-        employee.setManager(null);
-    }
 }

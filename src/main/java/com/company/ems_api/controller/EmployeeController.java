@@ -4,8 +4,8 @@ import com.company.ems_api.entities.Employee;
 import com.company.ems_api.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/api")
@@ -22,14 +22,17 @@ public class EmployeeController
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/save_emp")
+    @PostMapping("/add_emp")
     public ResponseEntity<Map<String, Object>> addEmployee(@Valid @RequestBody Employee employee)
     {
         Employee saved = employeeService.addEmployee(employee);
 
-        URI path = URI.create("/api/save_emp/" + saved.getId());
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Employee added successfully");
+        response.put("employee", saved);
 
-        employeeService.addEmployee(employee);
+        URI path = URI.create("/api/add_emp/" + saved.getId());
+
         Map<String,Object> msg= new HashMap<>();
         msg.put("message", "Employee added successfully");
         msg.put("employee",saved);
