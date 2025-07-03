@@ -13,21 +13,33 @@ import java.util.Map;
 public class RootExceptionHandler
 {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException ex) {
-    Map<String, String> fieldErrors = new HashMap<>();
-    ex.getBindingResult().getFieldErrors()
-            .forEach(error -> fieldErrors.put(error.getField(), error.getDefaultMessage()));
+    public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException ex)
+    {
+        Map<String, String> fieldErrors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> fieldErrors.put(error.getField(), error.getDefaultMessage()));
 
-    return ResponseEntity.badRequest().body(Map.of(
-            "status", 400,
-            "error", "Validation Failed",
-            "message", "Invalid request fields",
-            "errors", fieldErrors
-    ));
-}
+        return ResponseEntity.badRequest().body(Map.of(
+                "status", 400,
+                "error", "Validation Failed",
+                "message", "Invalid request fields",
+                "errors", fieldErrors
+        ));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException ex)
+    {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "status", 400,
+                "error", "Bad Request",
+                "message", ex.getMessage()
+        ));
+    }
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<?> handleCustom(CustomException ex) {
+    public ResponseEntity<?> handleCustom(CustomException ex)
+    {
         return ResponseEntity.badRequest().body(Map.of(
                 "status", 400,
                 "error", "Bad Request",
@@ -36,7 +48,8 @@ public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException 
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleOther(Exception ex) {
+    public ResponseEntity<?> handleOther(Exception ex)
+    {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                 "status", 500,
                 "error", "Internal Server Error",
